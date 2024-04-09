@@ -1,0 +1,21 @@
+from django.shortcuts import render
+from .utils import generate_transaction_uuid, generate_signature
+
+def checkout_view(request):
+    # Retrieve data or calculate values needed for the checkout form
+    total_amount = 4000  # Example total amount
+    product_code = "PROD123"  # Example product code
+    transaction_uuid = generate_transaction_uuid()
+    secret_key = "your_secret_key"  # Replace with your actual secret key
+    signature = generate_signature(total_amount, transaction_uuid, product_code, secret_key)
+
+    # Pass the data to the template as context variables
+    context = {
+        'total': total_amount,
+        'transaction_uuid': transaction_uuid,
+        'product_code': product_code,
+        'signature': signature,
+    }
+
+    # Render the checkout.html template with the provided context
+    return render(request, 'checkout.html', context)
